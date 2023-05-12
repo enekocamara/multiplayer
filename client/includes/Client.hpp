@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:59:54 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 12:25:47 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/12 15:23:27 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@
 #include <fcntl.h>
 #include <thread>
 #include <mutex>
+
 #include "RenderEngine.hpp"
 #include "Data.hpp"
-#include "include.h"
-#include "../../libraries/glm/glm.hpp"
 
+#include "../../libraries/glm/glm.hpp"
+#include "../../libraries/includes/header.h"
 
 
 class Client

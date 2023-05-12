@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:02:42 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 12:58:15 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/12 15:56:57 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ void	Client::pollHandle()
 		}
 		else
 		{
-			char *buffer =  new char[sizeof(glm::vec2) * messageInfo.size];
+			char *buffer =  new char[sizeof(Entity) * messageInfo.size];
 			//std::cout << "message size [" << (int)messageInfo.size << "]\n";
-			int		received = recv(pollfd.fd, buffer, sizeof(glm::vec2) * messageInfo.size, 0);
+			int		received = recv(pollfd.fd, buffer, sizeof(Entity) * messageInfo.size, 0);
 			if (received <= 0)
 			{
 				//std::cerr << "error receiving glm::pos\n";

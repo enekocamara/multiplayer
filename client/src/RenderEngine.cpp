@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:19:39 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 14:20:19 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/12 16:40:31 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,22 @@ RenderEngine::RenderEngine(Data	*data, Client *client, std::mutex *posMutex):mlx
 	keyboard.left = false;
 	keyboard.right = false;
 	this->posMutex = posMutex;
+	initEntityAtlas();
 }
 
 RenderEngine::~RenderEngine()
 {
 	
+}
+
+void	RenderEngine::initEntityAtlas()
+{
+	for (uint32_t i = 0; i < 1; i++)
+	{
+		t_image entity;
+		bmlx_create_img_xpm(mlx, &entity, "textures/entities/entity000.xpm", 16, 16);
+		entityAtlas.push_back(entity);
+	}
 }
 
 void	RenderEngine::createWindow()
@@ -64,9 +75,9 @@ void RenderEngine::renderFrame()
 	printFPS();
 	mlx_put_image_to_window(mlx, win, map.getMap(), 0,0);
 	posMutex->lock();
-	for (uint32_t i = 0; i < data->size(); i++)
+	for (posIt i = 0; i < data->size(); i++)
 	{
-		mlx_put_image_to_window(mlx, win, map.getTexture(2).img, (*data)[i].x * TILE, (*data)[i].y * -1 * TILE);
+		mlx_put_image_to_window(mlx, win, entityAtlas[0].img, (*data)[i].x * TILE, (*data)[i].y * -1 * TILE);
 	}
 	posMutex->unlock();
 }
