@@ -6,7 +6,7 @@
 #    By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/10 12:59:03 by ecamara           #+#    #+#              #
-#    Updated: 2023/05/12 12:59:05 by ecamara          ###   ########.fr        #
+#    Updated: 2023/05/12 14:27:37 by ecamara          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,11 +32,15 @@ NAME = client
 
 all: $(NAME)
 
+
 $(NAME): $(OBJ_FILES)
+	$(MAKE) -C ../libraries/mlx
 	$(CC) $(CPPFLAGS) $(LIBS) $(OBJ_FILES) $(INCLUDES) -o $@
 
 %.o: %.cpp
 	$(CC) $(CPPFLAGS) $(LIBS) $(INCLUDES) -c $^ -o $@
+
+
 
 clean:
 	rm -f $(OBJ_FILES) $(NAME)
@@ -44,3 +48,4 @@ clean:
 re: clean all
 
 .PHONY: all clean re
+

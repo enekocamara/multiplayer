@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:48:49 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 12:54:56 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/12 13:38:17 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	Server::sendData()
 		dataMutex.lock();
 		messageInfo.flags = FLAG_POS_VECTOR;
 		messageInfo.size = data.size() - 1;
-		std::cout << "message info flags " << (int)messageInfo.flags << " size " << (int)messageInfo.size << "\n";
+		//std::cout << "message info flags " << (int)messageInfo.flags << " size " << (int)messageInfo.size << "\n";
 		send(data[i].fd, &messageInfo, sizeof(Info), 0);
 		send(data[i].fd, &data.posData()[1], sizeof(glm::vec2) * messageInfo.size, 0);
 		dataMutex.unlock();
@@ -122,7 +122,7 @@ void	Server::acceptConnection()
 	info.flags = FLAG_ID;
 	data.add(new_client.fd);
 	info.size = static_cast<uint8_t>(data.size() - 2);
-	std::cout << "message info flags " << (int)info.flags << " size " << (int)info.size << "\n";
+	//std::cout << "message info flags " << (int)info.flags << " size " << (int)info.size << "\n";
 	send(new_client.fd, &info, sizeof(Info), 0);
 	dataMutex.unlock();
 }

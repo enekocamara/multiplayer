@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:17:23 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 12:24:04 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/12 14:10:29 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ class RenderEngine{
 		static int	eventsrealeseWrapper(int keycode, void *param);
 		void		createWindow();
 		void		updatePosition();
+		uint32_t	getPosition(glm::vec2 pos);
 	private:
 		void	*mlx;
 		void	*win;

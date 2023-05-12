@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:30:49 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/11 19:43:52 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/12 14:02:59 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void Map::readMap(std::string mapPath)
 		height++;
 	}
 	file.close();
-	//printMap();
+	printMap();
 	createMapImg();
 }
 
@@ -80,6 +80,8 @@ void	Map::printMap()
 	std::cout << "map size " << map.size() << " height " << height << " width " << width << '\n';
 	for (uint32_t i = 0; i < map.size(); i++)
 	{
+		if (i % width == 0)
+			std::cout << '\n';
 		std::cout << map[i];
 	}
 }
@@ -115,4 +117,9 @@ t_image Map::operator[](uint32_t mapPos)
 t_image Map::getTexture(uint32_t idx)
 {
 	return textureAtlas[idx];
+}
+
+uint32_t	Map::getValue(uint32_t mapPos) const
+{
+	return map[mapPos];
 }

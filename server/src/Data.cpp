@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:28:59 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 12:14:13 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/12 13:56:00 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	Data::add(int fd, std::string username)
 	newPollfd.events = POLLOUT | POLLIN;
 	pollfdVector.push_back(newPollfd);
 	users.push_back(newUser);
-	positions.push_back(glm::vec2(1.f,-1.f));
+	positions.push_back(glm::vec2(1.1f,-1.1));
 }
 
 User &Data::operator[](userIt idx)

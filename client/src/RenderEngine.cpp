@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:19:39 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 12:16:22 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/12 14:20:19 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,38 @@ void RenderEngine::renderFrame()
 	posMutex->unlock();
 }
 
+uint32_t RenderEngine::getPosition(glm::vec2 pos)
+{
+	uint32_t y = (pos.y * -1);
+	uint32_t x = pos.x;
+	return (y * map.getWidth() + x);
+}
+
 void RenderEngine::updatePosition()
 {
-	if (keyboard.up)
-		data->myPos.y += 0.051f;
-	if (keyboard.down)
-		data->myPos.y -= 0.05f;
-	if (keyboard.left)
-		data->myPos.x -= 0.05f;
-	if (keyboard.right)
-		data->myPos.x += 0.05f;
+	float step = 0.05f;
+	std::cout << "x " << data->myPos.x << " y " << data->myPos.y << '\n';
+	std::cout << "my pos value " << map.getValue(getPosition(data->myPos)) << '\n'; 
+	if (keyboard.up && !map.getValue(getPosition({data->myPos.x, data->myPos.y + step}))
+					&& !map.getValue(getPosition({data->myPos.x + 1, data->myPos.y + step})))
+	{
+		data->myPos.y += step;
+	}
+	if (keyboard.down && !map.getValue(getPosition({data->myPos.x, data->myPos.y - step - 1}))
+					  && !map.getValue(getPosition({data->myPos.x + 1, data->myPos.y - step - 1})))
+	{
+		data->myPos.y -= step;
+	}
+	if (keyboard.left && !map.getValue(getPosition({data->myPos.x - step, data->myPos.y}))
+					  && !map.getValue(getPosition({data->myPos.x - step, data->myPos.y - 1})))
+	{
+		data->myPos.x -= step;
+	}
+	if (keyboard.right && !map.getValue(getPosition({data->myPos.x + step + 1, data->myPos.y}))
+					   && !map.getValue(getPosition({data->myPos.x + step + 1, data->myPos.y - 1})))
+	{
+		data->myPos.x += step;
+	}
 	client->sendNewPosition(data->myPos);
 }
 
