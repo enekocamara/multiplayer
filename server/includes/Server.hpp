@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:49:58 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 12:22:40 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/16 15:43:07 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,9 @@
 #include <chrono>
 
 #include "../includes/Data.hpp"
+#include "../../libraries/includes/header.h"
 
 #include <netinet/tcp.h>
-
-#define FLAG_ID 0b00000001
-#define FLAG_POS_VECTOR 0b00000010
-
-struct Info{
-	uint8_t flags;
-	uint8_t size;
-};
 
 struct t_config{
 	int port;
@@ -67,7 +60,10 @@ class Server{
 		void	setSocket();
 		void	listenConnection();
 		void	acceptConnection();
+
 		void	handleSignals(int max);
+		void	handleInfoMessage(pollfdIt pIt, bool &info, Info &messageInfo);
+		void	handleDataMessage(pollfdIt pIt, bool &info, Info &messageInfo);
 		Data		data;
 		std::mutex dataMutex;
 		t_config	config;

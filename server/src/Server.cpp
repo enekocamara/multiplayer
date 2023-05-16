@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:48:49 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 13:38:17 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/16 16:49:30 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,69 @@ Server::~Server()
 
 void	Server::handleSignals(int max)
 {
-	pollfdIt pIt = 1;
-	int numOfEvents = 0;
-	while(numOfEvents < max && pIt < data.size())
+	pollfdIt		pIt = 1;
+	static bool		info = true;
+	int numOfEvents	= 0;
+	static Info	messageInfo = {};
+
+	while(numOfEvents < max && pIt < data.playerSize())
 	{
+		
 		if (data[pIt].revents & POLLIN)
 		{
-			//std::cout << "signal received\n";
-			char buffer[sizeof(glm::vec2)];
-			int received = recv(data[pIt].fd, buffer, sizeof(buffer), 0);
-			dataMutex.lock();
-			glm::vec2 newPos;
-			std::memcpy(&newPos, buffer, sizeof(glm::vec2));
-			data[(posIt)pIt] = newPos;
-			//std::memcpy(&data[(posIt)pIt], buffer, sizeof(glm::vec2));
-			dataMutex.unlock();
-			//std::cout << "unlocked\n";
+			if (info)
+			{
+				handleInfoMessage(pIt, info, messageInfo);
+			}
+			else
+			{
+				handleDataMessage(pIt, info, messageInfo);
+			}
 			numOfEvents++;
 		}
 		pIt = pIt + 1;
+	}
+}
+
+void Server::handleInfoMessage(pollfdIt pIt, bool &info, Info &messageInfo)
+{
+	char buffer[sizeof(Info)];
+	int received = recv(data[pIt].fd, buffer, sizeof(buffer), 0);
+	if (received == -1)
+	{
+		std::cerr << "error reciving the Info message\n" << "sizeOf: " << sizeof(Info) <<'\n';
+		return ;
+	}
+	std::memcpy(&messageInfo, buffer, sizeof(Info));
+	if (messageInfo.flags == FLAG_NEW_ENTITY)
+		info = false;
+	else if (messageInfo.flags == FLAG_NEW_POSITION)
+		info = false;
+}
+
+void Server::handleDataMessage(pollfdIt pIt, bool &info, Info &messageInfo)
+{
+	if (messageInfo.flags == FLAG_NEW_ENTITY)
+	{
+		char buffer[sizeof(Entity)];
+		int received = recv(data[pIt].fd, buffer, sizeof(buffer), 0);
+		dataMutex.lock();
+		Entity newEntity;
+		std::memcpy(&newEntity, buffer, sizeof(Entity));
+		data.addEntity(newEntity);
+		dataMutex.unlock();
+		info = true;
+	}
+	else if (messageInfo.flags == FLAG_NEW_POSITION)
+	{
+		char buffer[sizeof(glm::vec2)];
+		int received = recv(data[pIt].fd, buffer, sizeof(buffer), 0);
+		dataMutex.lock();
+		glm::vec2 newPos;
+		std::memcpy(&newPos, buffer, sizeof(glm::vec2));
+		data[(posIt)pIt] = newPos;
+		dataMutex.unlock();
+		info = true;
 	}
 }
 
@@ -84,7 +128,7 @@ void	Server::pollHandler()
 {
 	int events;
 	pollfdIt pIt = 0;
-	events = poll(data.pollData(), static_cast<nfds_t>(data.size()), 1);
+	events = poll(data.pollData(), static_cast<nfds_t>(data.playerSize()), 1);
 	if (data[pIt].revents & POLLIN)
 		acceptConnection();
 	handleSignals(events);
@@ -93,14 +137,19 @@ void	Server::pollHandler()
 void	Server::sendData()
 {
 	Info messageInfo = {};
-	for (pollfdIt i = 1; i < data.size(); i = i + 1)
+	for (pollfdIt i = 1; i < data.playerSize(); i = i + 1)
 	{
 		dataMutex.lock();
-		messageInfo.flags = FLAG_POS_VECTOR;
-		messageInfo.size = data.size() - 1;
+		messageInfo.flags = FLAG_PLAYER_VECTOR;
+		messageInfo.size = data.playerSize() - 1;
 		//std::cout << "message info flags " << (int)messageInfo.flags << " size " << (int)messageInfo.size << "\n";
 		send(data[i].fd, &messageInfo, sizeof(Info), 0);
-		send(data[i].fd, &data.posData()[1], sizeof(glm::vec2) * messageInfo.size, 0);
+		send(data[i].fd, &data.playersData()[1], sizeof(Entity) * messageInfo.size, 0);//player pos
+
+		messageInfo.flags = FLAG_ENTITY_VECTOR;
+		messageInfo.size = data.entitySize() - 1;
+		send(data[i].fd, &messageInfo, sizeof(Info), 0);
+		send(data[i].fd, &data.entitiesData()[0], sizeof(Entity) * messageInfo.size, 0);//player pos
 		dataMutex.unlock();
 	}
 }
@@ -120,8 +169,8 @@ void	Server::acceptConnection()
 	}
 	Info info = {};
 	info.flags = FLAG_ID;
-	data.add(new_client.fd);
-	info.size = static_cast<uint8_t>(data.size() - 2);
+	data.addUser(new_client.fd);
+	info.size = static_cast<uint8_t>(data.playerSize() - 2);
 	//std::cout << "message info flags " << (int)info.flags << " size " << (int)info.size << "\n";
 	send(new_client.fd, &info, sizeof(Info), 0);
 	dataMutex.unlock();
@@ -151,7 +200,7 @@ void	Server::setSocket()
 	{
 		throw std::runtime_error("failed to create socket");
 	}
-	data.add(serverFd);
+	data.addUser(serverFd);
 	int flag = 1;
 	int result = setsockopt(serverFd, IPPROTO_TCP, TCP_NODELAY, (char*)&flag, sizeof(int));
 	if (result < 0)

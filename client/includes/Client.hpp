@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:59:54 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 15:23:27 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/16 16:24:18 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ class Client
 		~Client();
 		void	start();
 		void	sendNewPosition(glm::vec2 newPos);
+		void	sendNewEntity(Entity entity);
 	private:
 		void	pollHandle();
+		void	handleInfoMessage(bool &info, Info &messageInfo);
+		void	handleDataMessage(bool &info, Info &messageInfo);
 		void	updateData();
 		uint32_t		id;
 		int				port;

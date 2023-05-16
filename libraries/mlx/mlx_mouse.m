@@ -43,10 +43,10 @@ int	mlx_mouse_get_pos(mlx_win_list_t *win, int *x, int *y)
   id		thewin;
   NSRect	pos;
 
-  thewin = [(id)(win->winid) win];
-  pos = [(id)(win->winid) frame];
-  point = [thewin mouseLocationOutsideOfEventStream];
-  *x = point.x;
-  *y = NSHeight(pos) - 1 - point.y;
+  //thewin = [(id)(win->winid) win];
+  //pos = [(id)(win->winid) frame];
+  //point = [thewin mouseLocationOutsideOfEventStream];
+  //*x = point.x;
+  //*y = NSHeight(pos) - 1 - point.y;
   return (0);
 }

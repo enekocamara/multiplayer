@@ -6,12 +6,12 @@
 #    By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/10 12:59:03 by ecamara           #+#    #+#              #
-#    Updated: 2023/05/12 14:27:37 by ecamara          ###   ########.fr        #
+#    Updated: 2023/05/16 14:20:27 by ecamara          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang++
-CPPFLAGS = -std=c++17 -Wall -Wextra -O2 -mavx -mavx2 -march=native #-g3 -fsanitize=address 
+CPPFLAGS = -std=c++17 -Wall -Wextra -O2 -mavx -mavx2 -march=native -g3 -fsanitize=address 
 
 SRC_FILES =	src/main.cpp\
 			src/Client.cpp\

@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:02:42 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 15:56:57 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/16 16:34:06 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,47 +57,69 @@ void	Client::pollHandle()
 	if (events && pollfd.revents & POLLIN)
 	{
 		if (info)
-		{
-			char buffer[sizeof(Info)];
-			int received = recv(pollfd.fd, buffer, sizeof(buffer), 0);
-			if (received == -1)
-			{
-				std::cerr << "error reciving the message\n";
-				return ;
-			}
-			std::memcpy(&messageInfo, buffer, sizeof(Info));
-			//std::cout << "message info flags " << (int)messageInfo.flags << " size " << (int)messageInfo.size << "\n";
-			if (messageInfo.flags == FLAG_ID)
-			{
-				id = messageInfo.size;
-				std::cout << "my id " << id << '\n';
-			}
-			else
-			{
-				info = false;
-			}
-		}
+			handleInfoMessage(info, messageInfo);
 		else
+			handleDataMessage(info, messageInfo);
+	}
+}
+
+void	Client::handleInfoMessage(bool &info, Info &messageInfo)
+{
+	char buffer[sizeof(Info)];
+	int received = recv(pollfd.fd, buffer, sizeof(buffer), 0);
+	if (received == -1)
+	{
+		std::cerr << "error reciving the Info message\n";
+		return ;
+	}
+	std::memcpy(&messageInfo, buffer, sizeof(Info));
+	//std::cout << "message info flags " << (int)messageInfo.flags << " size " << (int)messageInfo.size << "\n";
+	if (messageInfo.flags == FLAG_ID)
+	{
+		id = messageInfo.size;
+		std::cout << "my id " << id << '\n';
+	}
+	else if (messageInfo.flags == FLAG_ENTITY_VECTOR)
+	{
+		info = false;
+	}
+	else if (messageInfo.flags == FLAG_PLAYER_VECTOR)
+	{
+		info = false;
+	}
+}
+
+void	Client::handleDataMessage(bool &info, Info &messageInfo)
+{
+	if (messageInfo.flags == FLAG_PLAYER_VECTOR)
+	{
+		char *buffer =  new char[sizeof(Entity) * messageInfo.size];
+		int		received = recv(pollfd.fd, buffer, sizeof(Entity) * messageInfo.size, 0);
+		if (received <= 0)
 		{
-			char *buffer =  new char[sizeof(Entity) * messageInfo.size];
-			//std::cout << "message size [" << (int)messageInfo.size << "]\n";
-			int		received = recv(pollfd.fd, buffer, sizeof(Entity) * messageInfo.size, 0);
-			if (received <= 0)
-			{
-				//std::cerr << "error receiving glm::pos\n";
-				info = true;
-				//exit(0);
-				return ;
-			}
-			//std::cout << '[' << buffer << ']' << received << '\n';
-			posMutex.lock();
-			data.update(buffer, received);
-			delete buffer;
-			posMutex.unlock();
-			//std::cout << "vec3 = " << data[0].x << ',' << data[0].y << '\n';
 			info = true;
-			//size = 0;
+			return ;
 		}
+		posMutex.lock();
+		data.updatePlayers(buffer, received);
+		delete buffer;
+		posMutex.unlock();
+		info = true;
+	}
+	else if (messageInfo.flags == FLAG_ENTITY_VECTOR)
+	{
+		char *buffer =  new char[sizeof(Entity) * messageInfo.size];
+		int		received = recv(pollfd.fd, buffer, sizeof(Entity) * messageInfo.size, 0);
+		if (received <= 0)
+		{
+			info = true;
+			return ;
+		}
+		posMutex.lock();
+		data.updateEntities(buffer, received);
+		delete buffer;
+		posMutex.unlock();
+		info = true;
 	}
 }
 
@@ -112,5 +134,17 @@ void	Client::updateData()
 void	Client::sendNewPosition(glm::vec2 newPos)
 {
 	//std::cout << "sending position\n";
+	Info messageInfo = {};
+	messageInfo.flags = FLAG_NEW_POSITION;
+	send(pollfd.fd, &messageInfo, sizeof(Info), 0);
 	send(pollfd.fd, &newPos, sizeof(glm::vec2), 0);
+}
+
+void	Client::sendNewEntity(Entity newEntity)
+{
+	//std::cout << "sending position\n";
+	Info messageInfo = {};
+	messageInfo.flags = FLAG_NEW_ENTITY;
+	send(pollfd.fd, &messageInfo, sizeof(Info), 0);
+	send(pollfd.fd, &newEntity, sizeof(Entity), 0);
 }

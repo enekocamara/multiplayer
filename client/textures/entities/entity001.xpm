@@ -1,0 +1,29 @@
+/* XPM */
+static char *Shuriken1684238434[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 7 1 ",
+"  c None",
+". c #141B1B",
+"X c #4E484A",
+"o c #5F7160",
+"O c #ABC2BC",
+"+ c #F2EAF1",
+"@ c white",
+/* pixels */
+"     @@@@       ",
+"     @...@      ",
+"     @.Oo.@     ",
+"     @.+o.@     ",
+"    @@.+oo.@    ",
+"  @@..+OOo.@@@@@",
+" @..++OOOOo....@",
+"@.+++OOXXOOOOo.@",
+"@.oooOOXXOOooo.@",
+"@....oOOOOoo..@ ",
+"@@@@@.oOOo..@@  ",
+"    @.oOo.@@    ",
+"     @.oo.@     ",
+"     @.oo.@     ",
+"      @...@     ",
+"       @@@@     "
+};

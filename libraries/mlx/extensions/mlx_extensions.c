@@ -15,7 +15,7 @@ void bmlx_create_img(void *mlx, t_image *image, uint32_t width, uint32_t height)
 	image->height = height;
 }
 
-void bmlx_create_img_xpm(void *mlx, t_image *image, char *path,uint32_t width, uint32_t height)
+void bmlx_create_img_xpm(void *mlx, t_image *image, const char *path,uint32_t width, uint32_t height)
 {
 	image->img = mlx_xpm_file_to_image(mlx, path, &width, &height);
 	image->add = (int *)mlx_get_data_addr(image->img,

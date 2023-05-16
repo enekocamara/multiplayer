@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:05:15 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/11 19:34:30 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/16 14:06:28 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_mlx
 void initMlx(t_mlx *mlx, char *name, t_pipelineCreateInfo *createInfo);
 
 void bmlx_create_img(void *mlx, t_image *image, uint32_t WIDTH, uint32_t HEIGHT);
-void bmlx_create_img_xpm(void *mlx, t_image *image, char *path,uint32_t width, uint32_t height);
+void bmlx_create_img_xpm(void *mlx, t_image *image, const char *path,uint32_t width, uint32_t height);
 
 void bmlx_put_img_to_img(t_image *dest, t_image *src, uint32_t idx, uint32_t size, uint32_t width);
 
