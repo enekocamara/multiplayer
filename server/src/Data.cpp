@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:28:59 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/16 16:05:21 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/17 12:12:00 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	Data::addUser(int fd, std::string username)
 	newEntity.data = static_cast<uint64_t>(entityData.id) << 32 | entityData.flags;
 	newEntity.pos = {1.1f,-1.1};
 	newEntity.vel = {0,0};
-	entities.push_back(newEntity);
+	players.push_back(newEntity);
 }
 
 void	Data::addEntity(Entity entity)

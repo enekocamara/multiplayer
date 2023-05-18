@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:23:04 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/16 16:49:50 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/17 12:24:33 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	Data::updatePlayers(char *buffer, uint32_t size)
 	//delete[] buffer;
 	
 	// Print the first position for debugging
-	//std::cout << positions[0].x << "," << positions[0].y << '\n';
+	std::cout << color::red << "recv pos [" << players[0].pos.x << ',' << players[0].pos.y << "]\n" << color::reset; 
 }
 
 void	Data::updateEntities(char *buffer, uint32_t size)

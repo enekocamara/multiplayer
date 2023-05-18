@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:48:49 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/16 16:49:30 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/17 12:58:42 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,14 @@ void Server::handleDataMessage(pollfdIt pIt, bool &info, Info &messageInfo)
 	}
 	else if (messageInfo.flags == FLAG_NEW_POSITION)
 	{
+		
 		char buffer[sizeof(glm::vec2)];
 		int received = recv(data[pIt].fd, buffer, sizeof(buffer), 0);
 		dataMutex.lock();
 		glm::vec2 newPos;
 		std::memcpy(&newPos, buffer, sizeof(glm::vec2));
 		data[(posIt)pIt] = newPos;
+	//	std::cout << "new pos [" << newPos.x << ',' << newPos.y << "]\n"; 
 		dataMutex.unlock();
 		info = true;
 	}
@@ -128,7 +130,7 @@ void	Server::pollHandler()
 {
 	int events;
 	pollfdIt pIt = 0;
-	events = poll(data.pollData(), static_cast<nfds_t>(data.playerSize()), 1);
+	events = poll(data.pollData(), static_cast<nfds_t>(data.playerSize()), 100);
 	if (data[pIt].revents & POLLIN)
 		acceptConnection();
 	handleSignals(events);
@@ -143,13 +145,32 @@ void	Server::sendData()
 		messageInfo.flags = FLAG_PLAYER_VECTOR;
 		messageInfo.size = data.playerSize() - 1;
 		//std::cout << "message info flags " << (int)messageInfo.flags << " size " << (int)messageInfo.size << "\n";
+		std::cout << "send pos [" << (data.playersData() + 1)->pos.x << ',' << (data.playersData() + 1)->pos.y << "]\n";
 		send(data[i].fd, &messageInfo, sizeof(Info), 0);
-		send(data[i].fd, &data.playersData()[1], sizeof(Entity) * messageInfo.size, 0);//player pos
-
+		bool sended = false;
+		while (!sended)
+		{
+			if (send(data[i].fd, data.playersData() + 1, sizeof(Entity) * messageInfo.size, 0) == -1)//player pos
+			{
+			//std::cout << color::boldred << "failed to send info\nsize[" << messageInfo.size << "]\n" << color::reset;
+			//std::error_code ec(errno, std::system_category());
+			//std::cerr << "fd " << data[i].fd << "size " << sizeof(Entity) * messageInfo.size << "ptr " << data.playersData() + 1 <<  " An error ocurred sending the message: " << color::boldwhite << ec.message() << color::reset << std::endl;
+			//std::cout << color::boldred << "failed to send info\nsize[" << messageInfo.size << "]\n" << color::reset;
+			//std::cerr << "fd " << data[i].fd << " size " << sizeof(Entity) * messageInfo.size << " ptr " << data.playersData() + 1 <<  '\n';
+			//// Print the error message associated with errno
+			//std::cerr << "An error occurred sending the message: " << color::boldwhite << strerror(errno) << color::reset << std::endl;
+			}
+			else
+			{
+				std::cout << color::green << "sended\n" << color::reset;
+				sended = true;
+			}
+		}
+		sended = false;
 		messageInfo.flags = FLAG_ENTITY_VECTOR;
 		messageInfo.size = data.entitySize() - 1;
 		send(data[i].fd, &messageInfo, sizeof(Info), 0);
-		send(data[i].fd, &data.entitiesData()[0], sizeof(Entity) * messageInfo.size, 0);//player pos
+		send(data[i].fd, &data.entitiesData()[0], sizeof(Entity) * messageInfo.size, 0);//entities pos
 		dataMutex.unlock();
 	}
 }
@@ -167,12 +188,13 @@ void	Server::acceptConnection()
 		perror("connection refused");
 		return;
 	}
+	data.addUser(new_client.fd);
 	Info info = {};
 	info.flags = FLAG_ID;
-	data.addUser(new_client.fd);
-	info.size = static_cast<uint8_t>(data.playerSize() - 2);
+	info.size = data.playerSize() - 2;
 	//std::cout << "message info flags " << (int)info.flags << " size " << (int)info.size << "\n";
-	send(new_client.fd, &info, sizeof(Info), 0);
+	if (send(new_client.fd, &info, sizeof(Info), 0) == -1)
+		std::cout << color::boldred << "Failed to send info accept connection\n" << color::reset;
 	dataMutex.unlock();
 }
 

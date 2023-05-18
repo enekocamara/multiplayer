@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:02:42 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/16 16:34:06 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/17 12:59:58 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	Client::pollHandle()
 {
 	static bool		info = true;
 	static Info	messageInfo = {};
-	int events = poll(&pollfd, static_cast<nfds_t>(1), 1);
+	int events = poll(&pollfd, static_cast<nfds_t>(1), 20);
+	//std::cout << "number of events: " << events << '\n';
 	if (events && pollfd.revents & POLLIN)
 	{
 		if (info)
@@ -93,17 +94,20 @@ void	Client::handleDataMessage(bool &info, Info &messageInfo)
 {
 	if (messageInfo.flags == FLAG_PLAYER_VECTOR)
 	{
-		char *buffer =  new char[sizeof(Entity) * messageInfo.size];
+		char	*buffer =  new char[sizeof(Entity) * messageInfo.size];
+		//std::cout << "size = " << messageInfo.size << "\n";
 		int		received = recv(pollfd.fd, buffer, sizeof(Entity) * messageInfo.size, 0);
 		if (received <= 0)
 		{
+			std::cerr << "error reciving the Data message\n";
 			info = true;
 			return ;
 		}
+		std::cout << "sizeBytes =" << received << "\nSizeNum = " << messageInfo.size << "\nsizeof Entity = " << sizeof(Entity) << "\n\n";
 		posMutex.lock();
 		data.updatePlayers(buffer, received);
-		delete buffer;
 		posMutex.unlock();
+		delete buffer;
 		info = true;
 	}
 	else if (messageInfo.flags == FLAG_ENTITY_VECTOR)
@@ -138,6 +142,7 @@ void	Client::sendNewPosition(glm::vec2 newPos)
 	messageInfo.flags = FLAG_NEW_POSITION;
 	send(pollfd.fd, &messageInfo, sizeof(Info), 0);
 	send(pollfd.fd, &newPos, sizeof(glm::vec2), 0);
+	std::cout << "new pos [" << newPos.x << ',' << newPos.y << "]\n"; 
 }
 
 void	Client::sendNewEntity(Entity newEntity)

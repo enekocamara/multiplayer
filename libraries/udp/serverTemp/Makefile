@@ -5,20 +5,19 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/10 11:26:21 by ecamara           #+#    #+#              #
-#    Updated: 2023/05/17 12:36:52 by ecamara          ###   ########.fr        #
+#    Created: 2023/05/18 13:39:42 by ecamara           #+#    #+#              #
+#    Updated: 2023/05/18 13:58:42 by ecamara          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
-# Compiler
 CC = clang++
-CPPFLAGS = -std=c++17 -Wall -Wextra -O2# -g3 -fsanitize=address
+CPPFLAGS = -std=c++17 -Wall -Wextra -O2 -g3 -fsanitize=address
 
-SRC_FILES =	src/main.cpp\
-			src/Server.cpp\
-			src/Data.cpp\
-			src/User.cpp
+SRC_FILES =	mainServer.cpp\
+			../src/HandShakeServer.cpp\
+			../src/UdpClient.cpp\
+			../src/ServerData.cpp\
+			../src/UdpServer.cpp
 
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 
