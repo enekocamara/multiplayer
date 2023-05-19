@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:49 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 13:02:08 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 17:03:53 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ ServerData::ServerData(ServerCreateInfo info): info(info)
 ServerData::~ServerData()
 {
 	
+}
+
+void	ServerData::runServer(uint8_t num)
+{
+	rooms[num].run();
 }
 
 const int	*ServerData::getPorts()const

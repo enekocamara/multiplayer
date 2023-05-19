@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:49:58 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 13:42:09 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 14:19:18 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <mutex>
 #include <chrono>
 
-#include "../includes/Data.hpp"
+#include "Data.hpp"
 #include "../../libraries/includes/header.h"
 #include "../../libraries/UDP/includes/UdpConnection.h"
 

@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:03:49 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 13:34:02 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 14:50:53 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <iostream>
 #include <exception>
 
-#include "Color.hpp"
+#include "StaticColor.hpp"
 
 #define MAX_ROOMS 8
 

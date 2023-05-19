@@ -6,7 +6,7 @@
 #    By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/19 13:20:51 by ecamara           #+#    #+#              #
-#    Updated: 2023/05/19 13:26:53 by ecamara          ###   ########.fr        #
+#    Updated: 2023/05/19 14:32:18 by ecamara          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ all: $(STATIC_LIB)
 
 $(STATIC_LIB): $(OBJ_FILES)
 	ar rcs $(STATIC_LIB) $(OBJ_FILES)
-
 %.o: %.cpp
 	$(CC) $(CPPFLAGS) $(INCLUDES) -c $^ -o $@
 

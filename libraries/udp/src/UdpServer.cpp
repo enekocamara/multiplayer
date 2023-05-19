@@ -9,14 +9,16 @@ UdpServer::~UdpServer()
 
 }
 
-void UdpServer::run()
+void UdpServer::runHandShakeServer()
 {
-	std::thread handShakeThread([this]() {
-		handShakeServer.run();
-	});
-	handShakeThread.join();
+	handShakeServer.run();
 }
 
+void UdpServer::runServer(uint8_t num)
+{
+	if (num < info.numOfRooms)
+		data.runServer(num);
+}
 const char	* UdpServer::getIpAddresses()const
 {
 	return data.getIpAddresses();

@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 10:37:29 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 12:49:47 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 17:01:03 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include "HandShakeServer.hpp"
 #include "ServerData.hpp"
 #include "ThreadedServer.hpp"
+#include "StaticColor.hpp"
 
 
 class UdpServer{
@@ -32,7 +33,8 @@ class UdpServer{
 		UdpServer(ServerCreateInfo info);
 		~UdpServer();
 
-		void run();
+		void runHandShakeServer();
+		void runServer(uint8_t num);
 		const char	*getIpAddresses()const;
 		const int	*getPorts()const;
 		uint8_t		getActiveRooms()const;

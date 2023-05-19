@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:58:10 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 12:57:04 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 17:04:44 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,12 @@ ThreadedServer::ThreadedServer(int port) : port(port)
 ThreadedServer::~ThreadedServer()
 {
 	
+}
+
+void	ThreadedServer::run()
+{
+	while(1)
+	{
+		
+	}
 }

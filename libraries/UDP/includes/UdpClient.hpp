@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 10:44:40 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 12:42:26 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 14:50:59 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
+#include "StaticColor.hpp"
 #include "ServerDefines.hpp"
-
 struct	UdpClientCreateInfo{
 	int	port;
 	std::string ip;

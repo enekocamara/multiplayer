@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:59:54 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/16 16:24:18 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 17:14:57 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 #include "../../libraries/glm/glm.hpp"
 #include "../../libraries/includes/header.h"
-
+#include "../../libraries/UDP/includes/UdpConnection.h"
 
 class Client
 {
@@ -41,6 +41,7 @@ class Client
 		void	handleInfoMessage(bool &info, Info &messageInfo);
 		void	handleDataMessage(bool &info, Info &messageInfo);
 		void	updateData();
+		UdpClient		udpClient{};
 		uint32_t		id;
 		int				port;
 		pollfd			pollfd;

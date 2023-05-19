@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:18:01 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 12:52:01 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 17:04:34 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,13 @@
 #include <vector>
 #include <exception>
 
+#include "StaticColor.hpp"
+
 class ThreadedServer{
 	public:
 		ThreadedServer(int port);
 		~ThreadedServer();
+		void	run();
 	private:
 		int	port;
 		int	socketFd;

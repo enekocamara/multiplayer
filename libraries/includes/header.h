@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 12:28:43 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 13:34:24 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 14:17:51 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 #include <iostream>
 
+#include "Color.hpp"
 #include "../glm/glm.hpp"
 
 struct Info{
@@ -37,9 +38,6 @@ struct Entity{
 	glm::vec2 vel;
 	uint64_t data;
 };
-
-#include "Color.hpp"
-
 
 struct userIt{
 	uint32_t index;

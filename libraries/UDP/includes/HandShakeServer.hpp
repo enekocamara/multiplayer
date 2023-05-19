@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:16:48 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/18 13:43:27 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 14:50:49 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <thread>
 #include <vector>
 
+#include "StaticColor.hpp"
 
 class UdpServer;
 class ServerData;

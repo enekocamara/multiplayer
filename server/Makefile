@@ -6,7 +6,7 @@
 #    By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/10 11:26:21 by ecamara           #+#    #+#              #
-#    Updated: 2023/05/19 13:41:06 by ecamara          ###   ########.fr        #
+#    Updated: 2023/05/19 14:39:32 by ecamara          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,8 @@ NAME = server
 
 all: $(NAME)
 
-$(NAME): $(OBJ_FILES)
-	$(CC) $(CPPFLAGS) $(OBJ_FILES) -L $(STATIC_LIB) $(INCLUDES) -o $@
+$(NAME): $(OBJ_FILES) $(STATIC_LIB)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(STATIC_LIB) $^ -o $@
 
 %.o: %.cpp
 	$(CC) $(CPPFLAGS) $(INCLUDES) -c $^ -o $@

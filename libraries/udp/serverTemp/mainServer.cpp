@@ -6,11 +6,12 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 13:36:15 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 13:01:30 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 14:42:55 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/UdpServer.hpp"
+#include "../includes/Color.h"
 #include <iostream>
 #include <exception>
 

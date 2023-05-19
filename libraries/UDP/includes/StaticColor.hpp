@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Color.hpp                                          :+:      :+:    :+:   */
+/*   staticColor.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 14:50:23 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 14:50:37 by ecamara          ###   ########.fr       */
+/*   Created: 2023/05/19 14:41:19 by ecamara           #+#    #+#             */
+/*   Updated: 2023/05/19 14:52:48 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define COLOR_HPP
 
 #include <string>
+
+
 namespace color {
 	const std::string reset		= "\033[0m";
 	const std::string black		= "\033[30m";
