@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:49:58 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/16 15:43:07 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 13:42:09 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 #include "../includes/Data.hpp"
 #include "../../libraries/includes/header.h"
+#include "../../libraries/UDP/includes/UdpConnection.h"
 
 #include <netinet/tcp.h>
 
@@ -30,6 +31,7 @@ struct t_config{
 	uint32_t	flags;
 	uint32_t	maxUsers;
 	uint32_t	queueSize;
+	uint32_t	numOfRooms;
 	std::string	name;
 	struct sockaddr_in address;
 
@@ -45,12 +47,14 @@ struct t_config{
 			maxUsers = atoi(line.substr(index + 1, line.size() - index + 1).c_str());
 		else if (key == "queueSize")
 			queueSize = atoi(line.substr(index + 1, line.size() - index + 1).c_str());
+		else if(key == "numOfRooms")
+			numOfRooms = atoi(line.substr(index + 1, line.size() - index + 1).c_str());
 	}
 };
 
 class Server{
 	public:
-		Server();
+		Server(ServerCreateInfo UdpServerInfo, t_config config);
 		~Server();
 		void	run();
 	private:
@@ -64,7 +68,10 @@ class Server{
 		void	handleSignals(int max);
 		void	handleInfoMessage(pollfdIt pIt, bool &info, Info &messageInfo);
 		void	handleDataMessage(pollfdIt pIt, bool &info, Info &messageInfo);
+		
+		t_config			config;
+		ServerCreateInfo	UdpServerCreateInfo;
+		UdpServer	udpServer{UdpServerCreateInfo};
 		Data		data;
 		std::mutex dataMutex;
-		t_config	config;
 };

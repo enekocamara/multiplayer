@@ -1,4 +1,5 @@
 name=Multiplayer
-port=12346
+port=12345
 maxUsers=1000
 queueSize=100
+numOfRooms=8

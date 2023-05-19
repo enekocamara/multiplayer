@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:48:49 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/17 12:58:42 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 13:14:24 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 #include <fstream>
 #include <string>
 
-Server::Server()
+Server::Server(ServerCreateInfo UdpServerInfo, t_config config):UdpServerCreateInfo(UdpServerInfo), config(config)
 {
-	readConfig();
-	config.address.sin_family = AF_INET;
-	config.address.sin_addr.s_addr = INADDR_ANY;
-	config.address.sin_port = htons( config.port );
-	setSocket();
+	
 }
 
 Server::~Server()
@@ -198,21 +194,7 @@ void	Server::acceptConnection()
 	dataMutex.unlock();
 }
 
-void	Server::readConfig()
-{
-	const char *pathConfig = "config/config.sv";
 
-	std::ifstream file(pathConfig);
-	
-	if (!file.is_open())
-		throw std::runtime_error("failed to open config file");
-
-	std::string line;
-	while (std::getline(file, line)) {
-		config.update(line);
-	}
-	file.close();
-}
 
 void	Server::setSocket()
 {

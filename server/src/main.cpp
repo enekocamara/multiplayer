@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:12:12 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/11 11:33:24 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/19 13:17:24 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include <net/if.h>
 #include <netdb.h>
 #include <iostream>
+#include <fstream>
 
 void printIp()
 {
@@ -53,12 +54,33 @@ void printIp()
 	freeifaddrs(ifaddr);
 }
 
+void	readConfig(t_config &config)
+{
+	const char *pathConfig = "config/config.sv";
+
+	std::ifstream file(pathConfig);
+	
+	if (!file.is_open())
+		throw std::runtime_error("failed to open config file");
+
+	std::string line;
+	while (std::getline(file, line)) {
+		config.update(line);
+	}
+	file.close();
+}
+
 int	main()
 {
 	printIp();
+	ServerCreateInfo udpServerInfo;
+	t_config config;
+	readConfig(config);
+	udpServerInfo.numOfRooms = config.numOfRooms;
+	udpServerInfo.port = config.port;
 	try{
-	Server server;
-	server.run();
+		Server server(udpServerInfo, config);
+		server.run();
 	}
 	catch(const std::exception &e)
 	{

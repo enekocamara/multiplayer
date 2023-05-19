@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ThreadedServer.hpp                                 :+:      :+:    :+:   */
+/*   HandShakeServer.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 11:18:01 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 12:52:01 by ecamara          ###   ########.fr       */
+/*   Created: 2023/05/18 11:16:48 by ecamara           #+#    #+#             */
+/*   Updated: 2023/05/18 13:43:27 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,29 @@
 #include <unistd.h>
 #include <thread>
 #include <vector>
-#include <exception>
 
-class ThreadedServer{
+
+class UdpServer;
+class ServerData;
+
+#include "ServerDefines.hpp"
+
+class HandShakeServer{
 	public:
-		ThreadedServer(int port);
-		~ThreadedServer();
+		HandShakeServer(ServerCreateInfo info, UdpServer *server, ServerData *data);
+		~HandShakeServer();
+		void run();
 	private:
-		int	port;
-		int	socketFd;
+		void	initHandShake(sockaddr_in clientAddress, socklen_t clientAddressLength);
+		void	sendMessage(sockaddr_in clientAddress, socklen_t clientAddressLength, const char *message);
+		void	confirmHandShake(sockaddr_in clientAddress, socklen_t clientAddressLength, uint32_t ID);
+
+		int			socketFd;
 		sockaddr_in	sockaddr;
+		uint32_t	IDs;//0 reserved
+		UdpServer	*server;
+		ServerData		*data;
 };
+
+#include "UdpServer.hpp"
+#include "ServerData.hpp"

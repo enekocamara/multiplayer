@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ThreadedServer.hpp                                 :+:      :+:    :+:   */
+/*   mainClient.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 11:18:01 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 12:52:01 by ecamara          ###   ########.fr       */
+/*   Created: 2023/05/18 13:36:15 by ecamara           #+#    #+#             */
+/*   Updated: 2023/05/18 14:05:20 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
-
+#include "../includes/UdpClient.hpp"
 #include <iostream>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <thread>
-#include <vector>
 #include <exception>
 
-class ThreadedServer{
-	public:
-		ThreadedServer(int port);
-		~ThreadedServer();
-	private:
-		int	port;
-		int	socketFd;
-		sockaddr_in	sockaddr;
-};
+int main()
+{
+	UdpClientCreateInfo info = {};
+	info.port = 12345;
+	info.ip = "10.13.8.2";
+
+	UdpClient *client;
+	try{
+		client = new UdpClient(info);
+		client->start();
+	}
+	catch(std::exception &e){
+		e.what();
+		return 1;
+	}
+	delete client;
+	return 0;
+}
