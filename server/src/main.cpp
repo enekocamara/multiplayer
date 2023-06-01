@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:12:12 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 13:17:24 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/22 13:39:04 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	main()
 	t_config config;
 	readConfig(config);
 	udpServerInfo.numOfRooms = config.numOfRooms;
+	std::cout << "num of rooms :" << config.numOfRooms << "\n";
 	udpServerInfo.port = config.port;
 	try{
 		Server server(udpServerInfo, config);

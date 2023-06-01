@@ -6,12 +6,12 @@
 #    By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/19 13:20:51 by ecamara           #+#    #+#              #
-#    Updated: 2023/05/19 14:32:18 by ecamara          ###   ########.fr        #
+#    Updated: 2023/05/22 13:28:58 by ecamara          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang++
-CPPFLAGS = -std=c++17 -Wall -Wextra -O2# -g3 -fsanitize=address
+CPPFLAGS = -std=c++17 -Wall -Werror -Wextra -O2 -g# -g3 -fsanitize=address
 
 SRC_FILES =	src/HandShakeServer.cpp\
 			src/UdpClient.cpp\

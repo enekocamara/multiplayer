@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:46:49 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 17:03:53 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/22 13:46:25 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 ServerData::ServerData(ServerCreateInfo info): info(info)
 {
+	(void)this->info;
 	IDs.resize(1);
 	clientAddress.resize(1);
 	clientAddressLength.resize(1);
@@ -21,10 +22,12 @@ ServerData::ServerData(ServerCreateInfo info): info(info)
 	memset(tempInfo.ports, 0, MAX_ROOMS);
 	memset(tempInfo.ipAddresses, 0, sizeof(tempInfo.ipAddresses));
 	rooms.reserve(info.numOfRooms);
-	for(uint8_t i = 0; i < info.numOfRooms;i++)
+	tempInfo.activeRooms = 0;
+	for (uint8_t i = 0; i < info.numOfRooms;i++)
 	{
 		tempInfo.ports[i] = info.port + i + 1;
 		rooms.push_back(ThreadedServer(info.port + (int)i + 1));
+		tempInfo.activeRooms++;
 	}
 }
 

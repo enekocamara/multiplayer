@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:30:49 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/12 14:02:59 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/22 12:43:35 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ void	Map::initTextureAtlas()
 	t_image player;
 	int sizeY = TILE;
 	int sizeX = TILE;
-	char *pathGrass = "textures/grass/tile000.xpm";
-	char *pathWall = "textures/walls/all-4.xpm";
-	char *playerPath = "textures/walls/all-0.xpm";
+	const char *pathGrass = "textures/grass/tile000.xpm";
+	const char *pathWall = "textures/walls/all-4.xpm";
+	const char *playerPath = "textures/walls/all-0.xpm";
 	bmlx_create_img_xpm(mlx, &grass, pathGrass, sizeX, sizeY);
 	bmlx_create_img_xpm(mlx, &wall, pathWall, sizeX, sizeY);
 	bmlx_create_img_xpm(mlx, &player, playerPath, sizeX, sizeY);

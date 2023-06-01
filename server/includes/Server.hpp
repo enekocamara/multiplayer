@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:49:58 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 14:19:18 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/22 12:50:36 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ class Server{
 		void	handleInfoMessage(pollfdIt pIt, bool &info, Info &messageInfo);
 		void	handleDataMessage(pollfdIt pIt, bool &info, Info &messageInfo);
 		
-		t_config			config;
 		ServerCreateInfo	UdpServerCreateInfo;
+		t_config			config;
 		UdpServer	udpServer{UdpServerCreateInfo};
 		Data		data;
 		std::mutex dataMutex;

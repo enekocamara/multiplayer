@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:03:49 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 14:50:53 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/22 13:37:40 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ struct ServerInfo{
 	{
 		std::cout << "MY ID: " << ID << '\n';
 		std::cout << "SERVERS: \n";
-		for(uint8_t i = 0; i < MAX_ROOMS;i++)
+		for(uint8_t i = 0; i < activeRooms;i++)
 		{
 			std::cout << "\t\t[" << (int)i << "]: " << ports[i] << '\n';
 		}

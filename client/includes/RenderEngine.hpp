@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:17:23 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/16 15:35:45 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:39:41 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,14 @@ class RenderEngine{
 		void		render();
 		void		renderFrame();
 		
+		void		sendEntity(Entity &entity);
+		
 		void		eventpress(int keycode);
 		void		eventrealese(int keycode);
 		void		mouseEvent(int mousecode, int x, int y);
-		void		sendEntity(Entity &entity);
+		void		windowClosed();
+
+		static int	windowClosedWrapper(void *param);
 		static int	renderFrameWrapper(void *param);
 		static int	eventspressWrapper(int keycode, void *param);
 		static int	eventsrealeseWrapper(int keycode, void *param);

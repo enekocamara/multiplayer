@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:18:01 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 17:04:34 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/22 16:22:01 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <thread>
 #include <vector>
 #include <exception>
+#include <thread>
 
 #include "StaticColor.hpp"
 
@@ -29,7 +30,25 @@ class ThreadedServer{
 		ThreadedServer(int port);
 		~ThreadedServer();
 		void	run();
+		void	send(char *buffer, uint32_t size);
 	private:
+		void	sendInfoLoop();
+		void	recvInfoLoop();
+
+		void	sendData();
+
+		bool		endThreads;
+		std::mutex	endThreadsMutex;
+
+		bool		dataToSend;
+		char		*data;
+		uint32_t	dataSize;
+		std::mutex	sendMutex;
+
+		std::thread recvInfoThread;
+		std::thread sendInfoThread;
+
+
 		int	port;
 		int	socketFd;
 		sockaddr_in	sockaddr;

@@ -6,13 +6,13 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:02:42 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 17:12:46 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:36:50 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Client.hpp"
 
-Client::Client(int port, std::string ipAddress)
+Client::Client(UdpClientCreateInfo udpClientCreateInfo) : udpClientCreateInfo(udpClientCreateInfo)
 {
 	
 }
@@ -24,10 +24,11 @@ Client::~Client()
 
 void	Client::start()
 {
+	serverInfo = udpClient.start();
+	udpClient.join(0);
 	//renderer.createWindow();
 	
-	//std::thread renderThread(&RenderEngine::render, &renderer);
-	std::thread updateThread(&Client::updateData, this);
+	//std::thread updateThread(&Client::updateData, this);
 	renderer.render();
-	updateThread.join();
+//	updateThread.join();
 }

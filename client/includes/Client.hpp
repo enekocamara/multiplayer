@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:59:54 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 17:14:57 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:14:34 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 class Client
 {
 	public:
-		Client(int port, std::string ipAddress);
+		Client(UdpClientCreateInfo udpClientCreateInfo);
 		~Client();
 		void	start();
 		void	sendNewPosition(glm::vec2 newPos);
@@ -41,13 +41,18 @@ class Client
 		void	handleInfoMessage(bool &info, Info &messageInfo);
 		void	handleDataMessage(bool &info, Info &messageInfo);
 		void	updateData();
-		UdpClient		udpClient{};
+		
+
 		uint32_t		id;
 		int				port;
 		pollfd			pollfd;
 		std::string		ipAddress;
 		sockaddr_in		address;
 		std::mutex		posMutex;
+		ServerInfo		serverInfo;
+		UdpClientCreateInfo		udpClientCreateInfo;
+		
 		Data			data{};
+		UdpClient		udpClient{udpClientCreateInfo};
 		RenderEngine	renderer{&data, this, &posMutex};
 };

@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:28:59 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/17 12:12:00 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/22 12:51:03 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	Data::addUser(int fd, std::string username)
 
 void	Data::addEntity(Entity entity)
 {
-	Entity newEntity = {};
+	//Entity newEntity = {};
 
 	EntityData entityData = {};
 	entityData.id = entities.size() - 1;

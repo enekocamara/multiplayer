@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:19:39 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/16 16:31:08 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/24 16:57:46 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	RenderEngine::render()
 	mlx_loop_hook(mlx, renderFrameWrapper, reinterpret_cast<void *>(this));
 	mlx_hook(win, 2, 1L << 0, eventspressWrapper,  reinterpret_cast<void *>(this));
 	mlx_hook(win, 3, 1L << 0, eventsrealeseWrapper,  reinterpret_cast<void *>(this));
+	//mlx_hook(win, 17, 1L << 5, windowClosedWrapper,reinterpret_cast<void *>(this));
 	//mlx_hook(win, 4, 1L << 0, mouseEventWrapper,  reinterpret_cast<void *>(this));
 	mlx_mouse_hook(win, mouseEventWrapper,  reinterpret_cast<void *>(this));
 	mlx_loop(mlx);
@@ -132,7 +133,7 @@ void RenderEngine::updatePosition()
 	{
 		data->myPos.x += step;
 	}
-	client->sendNewPosition(data->myPos);
+	//client->sendNewPosition(data->myPos);
 }
 
 void	RenderEngine::eventpress(int keycode)
@@ -178,8 +179,13 @@ void	RenderEngine::mouseEvent(int keycode, int x, int y)
 		shuriken.data = static_cast<uint64_t>(entityData.id) << 32 | entityData.flags;		
 		shuriken.pos.x = x;
 		shuriken.pos.y = -y;
-		client->sendNewEntity(shuriken);
+		//client->sendNewEntity(shuriken);
 	}
+}
+
+void	RenderEngine::windowClosed()
+{
+	//END PROGRAM
 }
 
 int RenderEngine::renderFrameWrapper(void *param)
@@ -207,5 +213,12 @@ int RenderEngine::mouseEventWrapper(int mousecode, int x, int y, void *param)
 {
 	RenderEngine *renderer = static_cast<RenderEngine *>(param);
 	renderer->mouseEvent(mousecode, x, y);
+	return 0;
+}
+
+int windowClosedWrapper(void *param)
+{
+	RenderEngine *renderer = static_cast<RenderEngine *>(param);
+	renderer->windowClosed();
 	return 0;
 }

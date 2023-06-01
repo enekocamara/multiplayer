@@ -6,14 +6,14 @@
 #    By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/10 11:26:21 by ecamara           #+#    #+#              #
-#    Updated: 2023/05/19 14:39:32 by ecamara          ###   ########.fr        #
+#    Updated: 2023/05/22 12:49:32 by ecamara          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 # Compiler
 CC = clang++
-CPPFLAGS = -std=c++17 -Wall -Wextra -O2# -g3 -fsanitize=address
+CPPFLAGS = -std=c++17 -Wall -Werror -Wextra -O2# -g3 -fsanitize=address
 
 SRC_FILES =	src/main.cpp\
 			src/Server.cpp\

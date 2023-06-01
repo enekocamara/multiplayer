@@ -6,7 +6,7 @@
 /*   By: ecamara <ecamara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:34:27 by ecamara           #+#    #+#             */
-/*   Updated: 2023/05/19 13:02:28 by ecamara          ###   ########.fr       */
+/*   Updated: 2023/05/22 13:44:01 by ecamara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 HandShakeServer::HandShakeServer(ServerCreateInfo info, UdpServer *server, ServerData *data) : server(server), data(data)
 {
 	IDs = 1;
+	(void)this->server;
 	socketFd = socket(AF_INET, SOCK_DGRAM, 0);
 	if (socketFd == -1) {
 		throw std::runtime_error("failed to create socket");
@@ -59,15 +60,16 @@ void	HandShakeServer::run()
 
 void	HandShakeServer::initHandShake(sockaddr_in clientAddress, socklen_t clientAddressLength)
 {
-	ServerInfo info = {};
-	memcpy(info.ipAddresses, data->getIpAddresses(), sizeof(info.ipAddresses));
-	memcpy(info.ports, data->getPorts(), sizeof(info.ports));
-	info.ID = IDs;
-	info.activeRooms = data->getActiveRooms();
-	info.maxRooms = MAX_ROOMS;
+	ServerInfo sendInfo = {};
+	memcpy(sendInfo.ipAddresses, data->getIpAddresses(), sizeof(sendInfo.ipAddresses));
+	memcpy(sendInfo.ports, data->getPorts(), sizeof(sendInfo.ports));
+	sendInfo.ID = IDs;
+	sendInfo.activeRooms = data->getActiveRooms();
+	std::cout << "send active rooms = " << (int)sendInfo.activeRooms << '\n';
+	sendInfo.maxRooms = MAX_ROOMS;
 	
 	char *buffer[sizeof(ServerInfo)];
-	memcpy(buffer, &info, sizeof(ServerInfo));
+	memcpy(buffer, &sendInfo, sizeof(ServerInfo));
 	ssize_t bytes =  sendto(socketFd, buffer, sizeof(ServerInfo), 0, (struct sockaddr*)&clientAddress, clientAddressLength);
 	if (bytes == -1)
 	{
@@ -95,7 +97,7 @@ void HandShakeServer::confirmHandShake(sockaddr_in clientAddress, socklen_t clie
 	ssize_t bytesRead = recvfrom(socketFd, buffer, sizeof(buffer), 0,
 									(struct sockaddr*)&clientAddress, &clientAddressLength);
 	uint32_t newId;
-	memcpy(&newId, buffer, sizeof(uint32_t));
+	memcpy(&newId, buffer, bytesRead);
 	if (newId < IDs && newId > 0)
 		std::cout << color::green << "handShake finished\n" << color::reset;
 	else
